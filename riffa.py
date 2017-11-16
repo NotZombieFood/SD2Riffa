@@ -7,6 +7,8 @@ from pyudev import Context, Monitor
 
 from array import array
 
+import riffa
+
 
 # Funcion que procesa los datos para mandarlos al fpga
 def dataProccess(data):
@@ -26,8 +28,8 @@ def dataProccess(data):
 	else:
 		for x in range(len(data[0])-2):
 			sendData.append(ord(data[0][x])+256)
-			for f in range(16-len(data[0])-2):
-				sendData.append(0)
+		for f in range(18-len(data[0])):
+			sendData.append(32)
 
 	# leer la segunda linea del archivo txt
 	if len(data[1])>18:
@@ -37,10 +39,16 @@ def dataProccess(data):
 	else:
 		for y in range(len(data[1])-2):
 			sendData.append(ord(data[1][y])+256)
-		for f in range(18-len(data[1])):
+		for g in range(18-len(data[1])):
 			sendData.append(32)
+
 	print(sendData)
-	print(len(sendData))
+	amt = len(sendData)
+	sent = 0
+	fd = riffa.fpga_open(0)
+	sent = riffa.fpga_send(fd, 0, sendData, amt, 0, True, 0)
+	riffa.fpga_close(fd)
+
 try:
 	from pyudev.glib import MonitorObserver
 
@@ -54,7 +62,7 @@ try:
 				print("device mala")
 			else:
 				try:
-				    with open("LABSD.txt", "r") as f:
+				    with open("/media/fpga/LABSD/LABSD.txt", "r") as f:
 						data = f.readlines()
 				except IOError:
 				    print('cannot open')
@@ -78,7 +86,7 @@ except:
 				print("device mala")
 			else:
 				try:
-				    with open("LABSD.txt", "r") as f:
+				    with open("/media/fpga/LABSD/LABSD.txt", "r") as f:
 						data = f.readlines()
 				except IOError:
 				    print('cannot open')

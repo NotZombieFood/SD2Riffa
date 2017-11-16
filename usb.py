@@ -1,33 +1,17 @@
-# Importar utilidades
-import pyudev
-
 import glib
 
 from pyudev import Context, Monitor
 
 try:
-	from pyudev.glib import MonitorObserver
+    from pyudev.glib import MonitorObserver
 
-	def device_event(observer, device):
-		if (device.action=="add"):
-			print ("conectado")
-			# Momento de abrir nuestro archivo
-			print(device)
-		elif (device.action=="remove"):
-			print("desconectado")
-		else:
-			print("error")
+    def device_event(observer, device):
+        print 'event {0} on device {1}'.format(device.action, device)
 except:
-	from pyudev.glib import GUDevMonitorObserver as MonitorObserver
+    from pyudev.glib import GUDevMonitorObserver as MonitorObserver
 
-	def device_event(observer, action, device):
-		if (device.action=="add"):
-			print ("conectado")
-			# Momento de abrir nuestro archivo
-		elif (device.action=="remove"):
-			print("desconectado")
-		else:
-			print("error")
+    def device_event(observer, action, device):
+        print 'event {0} on device {1}'.format(action, device)
 
 context = Context()
 monitor = Monitor.from_netlink(context)
