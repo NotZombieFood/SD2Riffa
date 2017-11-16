@@ -4,3 +4,7 @@ Please install the requirements using:
 
 fix for glib error:
 sudo apt-get install --reinstall python-dbus
+
+
+fix for auto mount:
+sudo apt-get install usbmount  

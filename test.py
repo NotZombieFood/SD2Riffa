@@ -54,7 +54,7 @@ try:
 				print("device mala")
 			else:
 				try:
-				    with open("LABSD.txt", "r") as f:
+				    with open("/media/gerardo/LABSD/LABSD.txt", "r") as f:
 						data = f.readlines()
 				except IOError:
 				    print('cannot open')
@@ -78,7 +78,7 @@ except:
 				print("device mala")
 			else:
 				try:
-				    with open("LABSD.txt", "r") as f:
+				    with open("/media/gerardo/LABSD/LABSD.txt", "r") as f:
 						data = f.readlines()
 				except IOError:
 				    print('cannot open')
