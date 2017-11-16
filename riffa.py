@@ -9,6 +9,7 @@ from array import array
 
 import riffa
 
+import time
 
 # Funcion que procesa los datos para mandarlos al fpga
 def dataProccess(data):
@@ -29,7 +30,7 @@ def dataProccess(data):
 		for x in range(len(data[0])-2):
 			sendData.append(ord(data[0][x])+256)
 		for f in range(18-len(data[0])):
-			sendData.append(32)
+			sendData.append(288)
 
 	# leer la segunda linea del archivo txt
 	if len(data[1])>18:
@@ -40,7 +41,7 @@ def dataProccess(data):
 		for y in range(len(data[1])-2):
 			sendData.append(ord(data[1][y])+256)
 		for g in range(18-len(data[1])):
-			sendData.append(32)
+			sendData.append(288)
 
 	print(sendData)
 	amt = len(sendData)
@@ -61,6 +62,7 @@ try:
 			if(name[len(name)-4] == ":"):
 				print("device mala")
 			else:
+				time.sleep(5)
 				try:
 				    with open("/media/usb0/LABSD.txt", "r") as f:
 						data = f.readlines()
@@ -85,6 +87,7 @@ except:
 			if(name[len(name)-4] == ":"):
 				print("device mala")
 			else:
+				time.sleep(5)
 				try:
 				    with open("/media/usb0/LABSD.txt", "r") as f:
 						data = f.readlines()
