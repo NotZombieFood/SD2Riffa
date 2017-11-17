@@ -15,8 +15,6 @@ import time
 def dataProccess(data):
 	# Array de enteros.
 	sendData = array("i")
-	sendData.append(1)
-	sendData.append(1)
 	# checar cantidad de lineas
 	if len(data)>2:
 		print("overflow de lineas")
@@ -46,9 +44,14 @@ def dataProccess(data):
 	print(sendData)
 	amt = len(sendData)
 	sent = 0
+	dataRecv = array.array('I', [0]*amt)
 	fd = riffa.fpga_open(0)
 	sent = riffa.fpga_send(fd, 0, sendData, amt, 0, True, 0)
+	if (sent != 0):
+		recv = riffa.fpga_recv(fd, 0, dataRecv, 0)
 	riffa.fpga_close(fd)
+	print("Data recibida:")
+	print(dataRecv)
 
 try:
 	from pyudev.glib import MonitorObserver
@@ -85,7 +88,7 @@ except:
 			print(name)
 			print(name[len(name)-4])
 			if(name[len(name)-4] == ":"):
-				print("device mala")
+				print("Duplicado")
 			else:
 				time.sleep(5)
 				try:
